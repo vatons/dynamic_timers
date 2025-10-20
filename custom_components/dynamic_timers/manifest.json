@@ -1,0 +1,14 @@
+{
+    "domain": "dynamic_timers",
+    "name": "Dynamic Timer System",
+    "version": "1.0.0",
+    "codeowners": ["@vatons"],
+    "config_flow": false,
+    "integration_type": "system",
+    "iot_class": "calculated",
+    "issue_tracker": "https://github.com/vatons/dynamic_timers/issues",
+    "documentation": "https://github.com/vatons/dynamic_timers/README.md",
+    "requirements": [],
+    "dependencies": [],
+    "after_dependencies": ["persistent_notification"]
+}

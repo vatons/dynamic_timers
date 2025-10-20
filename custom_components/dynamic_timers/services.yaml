@@ -1,0 +1,150 @@
+create:
+  name: Create Timer
+  description: Create a new dynamic timer that executes actions when it expires.
+  fields:
+    name:
+      name: Timer Name
+      description: Unique name for the timer. If not provided, a UUID will be generated.
+      example: "living_room_light_timer"
+      required: false
+      selector:
+        text:
+    duration:
+      name: Duration
+      description: Duration in seconds before the timer expires.
+      example: 300
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 86400
+          unit_of_measurement: seconds
+    actions:
+      name: Actions
+      description: List of actions to execute when the timer expires.
+      example: |
+        - action_type: service
+          service: light.turn_off
+          target:
+            entity_id: light.living_room
+        - action_type: event
+          event: timer_expired
+          event_data:
+            timer_name: "{{ name }}"
+      required: true
+      selector:
+        object:
+    restart_behavior:
+      name: Restart Behavior
+      description: What to do with this timer when Home Assistant restarts.
+      default: resume
+      required: false
+      selector:
+        select:
+          options:
+            - label: Resume (continue timer, execute if expired)
+              value: resume
+            - label: Skip (discard expired timers)
+              value: skip
+            - label: Execute (always run actions immediately)
+              value: execute
+    groups:
+      name: Groups
+      description: List of group names this timer belongs to for batch operations.
+      example: ["lights", "automation"]
+      required: false
+      selector:
+        object:
+
+pause:
+  name: Pause Timer
+  description: Pause a timer or all timers in a group.
+  fields:
+    name:
+      name: Timer Name
+      description: Name of the timer to pause. Provide either name or group.
+      example: "living_room_light_timer"
+      required: false
+      selector:
+        text:
+    group:
+      name: Group Name
+      description: Name of the group to pause. Provide either name or group.
+      example: "lights"
+      required: false
+      selector:
+        text:
+
+resume:
+  name: Resume Timer
+  description: Resume a paused timer or all paused timers in a group.
+  fields:
+    name:
+      name: Timer Name
+      description: Name of the timer to resume. Provide either name or group.
+      example: "living_room_light_timer"
+      required: false
+      selector:
+        text:
+    group:
+      name: Group Name
+      description: Name of the group to resume. Provide either name or group.
+      example: "lights"
+      required: false
+      selector:
+        text:
+
+cancel:
+  name: Cancel Timer
+  description: Cancel a timer or all timers in a group.
+  fields:
+    name:
+      name: Timer Name
+      description: Name of the timer to cancel. Provide either name or group.
+      example: "living_room_light_timer"
+      required: false
+      selector:
+        text:
+    group:
+      name: Group Name
+      description: Name of the group to cancel. Provide either name or group.
+      example: "lights"
+      required: false
+      selector:
+        text:
+
+extend:
+  name: Extend Timer
+  description: Extend a timer or all timers in a group by adding time or setting a new expiry.
+  fields:
+    name:
+      name: Timer Name
+      description: Name of the timer to extend. Provide either name or group.
+      example: "living_room_light_timer"
+      required: false
+      selector:
+        text:
+    group:
+      name: Group Name
+      description: Name of the group to extend. Provide either name or group.
+      example: "lights"
+      required: false
+      selector:
+        text:
+    add_duration:
+      name: Add Duration
+      description: Positive number of seconds to add to the timer's current expiry. Provide either add_duration or new_expiry.
+      example: 300
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 86400
+          unit_of_measurement: seconds
+    new_expiry:
+      name: New Expiry
+      description: New absolute expiry time in ISO 8601 format (YYYY-MM-DDTHH:MM:SS). Provide either add_duration or new_expiry.
+      example: "2025-10-20T22:30:00"
+      required: false
+      selector:
+        text:
